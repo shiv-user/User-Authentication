@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout,update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm,PasswordChangeForm
 from django.contrib import messages
-from .forms import SignUpForm,EditProfileForm
+from .forms import SignUpForm,EditProfileForm,ProfileForm
+from .models import Profile
 
 # Create your views here.
 def home(request):
@@ -45,13 +46,20 @@ def register_user(request):
 def edit_profile(request):
 	if request.method =='POST':
 		form = EditProfileForm(request.POST,instance=request.user)
-		if form.is_valid():
+		profile_form = ProfileForm(request.POST, instance=request.user.profile)
+		if form.is_valid() and profile_form.is_valid():
 			form.save()
+			profile_form.save()
 			messages.success(request,('you have been successfully registered in'))
-			return redirect('home')			
+			return redirect('home')
+		else:
+			messages.error(request, ('Please correct the error below.'))
+
+
 	else:
 		form = EditProfileForm(instance=request.user)
-	context={'form':form}
+		profile_form = ProfileForm(instance=request.user.profile)
+	context={'form':form,'profile_form':profile_form}
 	return render(request,"edit_profile.html",context)
 
 def change_password(request):
@@ -66,3 +74,5 @@ def change_password(request):
 		form = PasswordChangeForm(user=request.user)
 	context={'form':form}
 	return render(request,'change_password.html',context)
+
+

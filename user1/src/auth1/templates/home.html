@@ -1,8 +1,26 @@
 {%  extends 'base.html' %}
 {% block content %}
-<h1>this is home page</h1>
+<center><h1>WELCOME!!</h1></center>
+<br>
 {% if user.is_authenticated %}
-	UserName:{{user.username}}
-	{{user.firstname}}
+<!-- 	UserName:{{user.username}}
+	{{user.firstname}} -->
+	<div class="container">
+		<div class="row">
+			<div class="col">
+
+  <h5>Hi<b> {{ user.username }},</b></h5>
+  <br>
+  <h6><b>About ME:</b></h6>
+  <p> {{ user.profile.bio }}</p>
+</div>
+<div class="col">
+
+<img src="{{user.profile.image}}" alt="shiv"><br>
+<h5>Born on:</h5>
+<p>{{user.profile.birth_date}}</p>
+</div>
+</div>
+</div>
 {% endif %}
 {% endblock%}

@@ -1,4 +1,4 @@
-#!/home/shivam/Documents/user1/bin/python3
+#!/home/quarkoverload/Music/v/bin/python
 from django.core import management
 
 if __name__ == "__main__":
